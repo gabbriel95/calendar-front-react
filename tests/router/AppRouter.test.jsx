@@ -22,4 +22,20 @@ describe('Pruebas en <AppRouter/>', () => {
 
     expect(mockCheckAuthToken).toHaveBeenCalled();
   });
+
+  test('Debe de mostrar el login en caso de no estar autenticado', () => {
+    useAuthStore.mockReturnValue({
+      status: 'not-authenticated',
+      checkAuthToken: mockCheckAuthToken,
+    });
+
+    const { container } = render(
+      <MemoryRouter>
+        <AppRouter />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('Ingreso')).toBeTruthy();
+    expect(container).toMatchSnapshot();
+  });
 });
